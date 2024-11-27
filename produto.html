@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Produto</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <header class="bg-white shadow-md fixed w-full">
+    <div class="container mx-auto flex justify-between items-center p-4">
+      
+      <div class="flex items-center">
+        <a href="index.html">
+          <img src="logo.png" alt="Logo do Site" class="h-8 w-8 mr-2">
+        </a>
+        <span class="text-xl font-bold text-gray-800">Minha Loja</span>
+      </div>
+
+      <div class="relative">
+        <a href="carrinho.html" class="flex items-center text-gray-600 hover:text-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.2 6M17 13l1.2 6M9 20h6M9 20a2 2 0 11-4 0M17 20a2 2 0 11-4 0" />
+          </svg>
+          <span id="contador-carrinho" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+      </div>
+
+      <div>
+        <button class="flex items-center text-gray-600 hover:text-gray-800">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A7.963 7.963 0 0112 15a7.963 7.963 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0zm6 4a9 9 0 10-18 0 9 9 0 0018 0z" />
+          </svg>
+          <span class="ml-2">Login</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <main class="pt-20">
+    <div class="container mx-auto py-10" id="produto-detalhes">
+    </div>
+  </main>
+
+  <script>
+    const produto = JSON.parse(localStorage.getItem("produtoSelecionado"));
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    function adicionarAoCarrinho(produtoId) {
+      const produto = JSON.parse(localStorage.getItem("produtoSelecionado"));
+      if (produto) {
+        carrinho.push(produto);
+        localStorage.setItem('carrinho', JSON.stringify(carrinho));
+        atualizarContadorCarrinho();
+        alert(`Produto "${produto.nome}" adicionado ao carrinho!`);
+      }
+    }
+
+    function atualizarContadorCarrinho() {
+      const contador = document.getElementById("contador-carrinho");
+      if (contador) {
+        contador.textContent = carrinho.length;
+      }
+    }
+
+    if (produto) {
+      const container = document.getElementById("produto-detalhes");
+      container.innerHTML = `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div>
+            <img src="${produto.imagem}" alt="${produto.nome}" class="w-full rounded-lg shadow-md">
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">${produto.nome}</h1>
+            <p class="text-xl text-blue-600 font-semibold mb-4">R$ ${produto.preco.toFixed(2)}</p>
+            <p class="text-gray-600 mb-6">${produto.descricao}</p>
+            <div class="flex items-center gap-4">
+              <button onclick="adicionarAoCarrinho('${produto.id}')" class="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600 transition">
+                Adicionar ao Carrinho
+              </button>
+              <button class="bg-gray-300 text-gray-800 py-2 px-6 rounded-lg hover:bg-gray-400 transition">
+                Comprar Agora
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    } else {
+      document.getElementById("produto-detalhes").innerHTML = `
+        <p class="text-center text-gray-800">Produto não encontrado!</p>
+      `;
+    }
+    atualizarContadorCarrinho();
+  </script>
+
+  <footer class="bg-gray-800 text-gray-300 py-6 mt-10">
+    <div class="container mx-auto text-center">
+      &copy; 2024 Minha Loja. Todos os direitos reservados.
+    </div>
+  </footer>
+
+</body>
+</html>
