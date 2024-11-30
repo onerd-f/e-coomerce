@@ -65,24 +65,8 @@
 
   <script>
     const produto = JSON.parse(localStorage.getItem("produtoSelecionado"));
-    carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
 
-    function adicionarAoCarrinho(produtoId) {
-      const produto = JSON.parse(localStorage.getItem("produtoSelecionado"));
-      if (produto) {
-        carrinho.push(produto);
-        localStorage.setItem('carrinho', JSON.stringify(carrinho));
-        atualizarContadorCarrinho();
-        alert(`Produto "${produto.nome}" adicionado ao carrinho!`);
-      }
-    }
-
-    function atualizarContadorCarrinho() {
-      const contador = document.getElementById("contador-carrinho");
-      if (contador) {
-        contador.textContent = carrinho.length;
-      }
-    }
+    adicionarAoCarrinho(produtoId);
 
     if (produto) {
       const container = document.getElementById("produto-detalhes");

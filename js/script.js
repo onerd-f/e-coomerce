@@ -44,6 +44,13 @@ function adicionarAoCarrinho(produtoId) {
     }
 }
 
+function atualizarContadorCarrinho() {
+  const contador = document.getElementById("contador-carrinho");
+  if (contador) {
+    contador.textContent = carrinho.length;
+  }
+}
+
 function atualizarCarrinho() {
   const carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
   document.getElementById("contador-carrinho").textContent = carrinho.length;
@@ -127,10 +134,6 @@ function logar(){
     alert("Email ou senha inválidos.");
   }
 }
-document.getElementById("form-login").addEventListener("submit", (event) => {
-  event.preventDefault();
-  
-});
 
 document.addEventListener("click", (event) => {
   const modal = document.getElementById("modal-login");
